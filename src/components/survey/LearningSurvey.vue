@@ -28,7 +28,8 @@
         </div>
         <p
           v-if="invalidInput"
-        >One or more input fields are invalid. Please check your provided data.</p>
+        >One or more input fields are invalid. Please check your provided data.
+      </p>
         <div>
           <base-button>Submit</base-button>
         </div>
@@ -54,11 +55,6 @@ export default {
         return;
       }
       this.invalidInput = false;
-
-    /*   this.$emit('survey-submit', {
-        userName: this.enteredName,
-        rating: this.chosenRating,
-      }); */
 
       fetch('https://vue-http-demo-75906-default-rtdb.firebaseio.com/surveys.json', {
         method: 'POST',
