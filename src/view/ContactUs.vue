@@ -54,6 +54,7 @@ h1{
     color: var(--main-color);
     background-color: var(--text-color);
     margin:0;
+    
     text-align: center;
 }
 .con{

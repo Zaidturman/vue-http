@@ -1,13 +1,19 @@
 <template>
     <div>
     <a href="/" class="a">Home</a>
-    <a href="../view/AboutUs.vue" class="a">About Us</a>
+    <a href="#About" class="a">About Us</a>
     <a href="../view/TheMenu.vue" class="a">Menu</a>
     <a href="../view/CustomersReview.vue" class="a">Customers Review</a>
     <a href="../view/ContactUs.vue" class="a">Contact Us</a>
     </div>
 
 </template>
+<script>
+  export default {
+   
+  }
+  
+</script>
 <style scoped>
  div{
     

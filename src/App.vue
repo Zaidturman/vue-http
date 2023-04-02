@@ -22,7 +22,7 @@ export default {
     AboutUs,
     TheMenu,
     CustomersReview,
-    ContactUs
+    ContactUs,
 
 
   }

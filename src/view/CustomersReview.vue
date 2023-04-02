@@ -1,61 +1,27 @@
 <template >
     <div class="back">
     <h1 class="header">CUSTOMER REVIEW</h1>
-    <div class="main">
-        <base-card >
-            <div class="customer">
-                <h4>Zaid turman</h4>
-                <img src="../../public/image/icons8-customer-40.png">
-            </div>
-            <div class="comment">
-                <p>We strive to being out the best in these carefully harvested and ve strive to bring out</p>
-            </div>
-            <base-rate></base-rate>
-        </base-card>
-        <base-card >
-            <div class="customer">
-                <h4>Ali</h4>
-                <img src="../../public/image/icons8-customer-40.png">
-            </div>
-            <div class="comment">
-                <p>We strive to being out the best in these carefully harvested and ve strive to bring out</p>
-            </div>
-            <base-rate></base-rate>
-        </base-card>
-        <base-card >
-            <div class="customer">
-                <h4>Sara</h4>
-                <img src="../../public/image/icons8-customer-40.png">
-            </div>
-            <div class="comment">
-                <p>We strive to being out the best in these carefully harvested and ve strive to bring out</p>
-            </div>
-            <base-rate></base-rate>
-        </base-card>
-        <base-card >
-            <div class="customer">
-                <h4>Ahmad</h4>
-                <img src="../../public/image/icons8-customer-40.png">
-            </div>
-            <div class="comment">
-                <p>We strive to being out the best in these carefully harvested and ve strive to bring out</p>
-            </div>
-            <base-rate></base-rate>
-        </base-card>
-        <base-card >
-            <div class="customer">
-                <h4>Jon</h4>
-                <img src="../../public/image/icons8-customer-40.png">
-            </div>
-            <div class="comment">
-                <p>We strive to being out the best in these carefully harvested and ve strive to bring out</p>
-            </div>
-            <base-rate></base-rate>
-        </base-card>
-        </div>
+    <div>
+        <base-button @click="loadExperiences">Load Review</base-button>
+      </div>
+      <p v-if="isLoading">Loading...</p>
+      <p v-else-if="!isLoading && error">{{ error }}</p>
+      <p
+        v-else-if="!isLoading && (!results || results.length === 0)"
+      >No stored experiences found. Start adding some survey results first.</p>
+       <div class="main">
+        <review-result
+        v-for="result in results"
+          :key="result.id"
+          :name="result.name"
+          :comment="result.comment"
+        ></review-result>
+       </div>
         <div class="btn">
-        <base-button >New Review</base-button>
+           
+        <base-button @click="toggleShow()">New Review</base-button>
     </div>
+    <add-review v-if="isShow"></add-review>
     </div>
         
        
@@ -63,15 +29,59 @@
     
 </template>
 <script>
-import BaseCard from '../UI/BaseCard.vue';
-import BaseRate from '../UI/BaseRate.vue';
 import BaseButton from '../UI/BaseButton.vue';
+import AddReview from '../components/AddReview.vue';
+import ReviewResult from '../components/ReviewResult.vue';
 export default {
+    data(){
+        return{
+            isShow:false,
+            results: [],
+      isLoading: false,
+      error: null,
+        }
+    },
+    methods:{
+       toggleShow(){
+          this.isShow = !this.isShow
+       },
+       loadExperiences() {
+      this.isLoading = true;
+      this.error = null;
+      fetch('https://caffee-project-cb700-default-rtdb.firebaseio.com//surveys.json')
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+        })
+        .then((data) => {
+          this.isLoading = false;
+          const results = [];
+          for (const id in data) {
+            results.push({
+              id: id,
+              name: data[id].name,
+              comment: data[id].comment,
+            });
+          }
+          this.results = results;
+        })
+        .catch((error) => {
+          console.log(error);
+          this.isLoading = false;
+          this.error = 'Failed to fetch data - please try again later.';
+        });
+    },
+    },
     components:{
-        BaseCard,
-        BaseRate,
-        BaseButton
-    }
+        
+        BaseButton,
+        AddReview,
+        ReviewResult
+    },
+    mounted() {
+    this.loadExperiences();
+  },
 }
 </script>
 <style scoped>

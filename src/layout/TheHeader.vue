@@ -10,6 +10,8 @@
         <div class="icon">
           <img src="../../public/image/icons8-search-30.png" id="icon1">
           <img src="../../public/image/icons8-fast-cart-64.png" id="icon2">
+          
+
         </div>
         
     
@@ -20,7 +22,7 @@
 import TheNav from './TheNav.vue';
 export default {
     components:{
-        TheNav
+        TheNav,
     }
 }
 </script>

@@ -1,86 +1,51 @@
 <template>
     <h1 class="header">MENU</h1>
     <div class="main">
-        <base-card >
-            <h1 >Iced Latte</h1>
-            <img src="../../public/image/iced-vanilla-latte.webp">
-            <div class="mount"><h5>$15.00</h5>
-            
-            <base-button>Add</base-button></div>
-        </base-card>
-        <base-card >
-            <h1 >Caffe Mocha</h1>
-            <img src="../../public/image/caffe-mocha.webp">
-
-            <div class="mount"><h5>$15.00</h5>
-            <base-button>Add</base-button></div>
-        </base-card>
-        <base-card >
-            <h1 >Caramel Mac</h1>
-            <img src="../../public/image/iced-caramel-macchiato.webp">
-
-            <div class="mount"><h5>$15.00</h5>
-            <base-button>Add</base-button></div>
-        </base-card>
-        <base-card >
-            <h1 >Chocolata far</h1>
-            <img src="../../public/image/mocha-blended-iced-img5.webp">
-            
-            <div class="mount"><h5>$15.00</h5>
-            <base-button>Add</base-button></div>
-        </base-card>
-        <base-card >
-            <h1 >Flat White</h1>
-            <img src="../../public/image/flat-white.png">
-            
-            <div class="mount"> <h5>$15.00</h5>
-            <base-button>Add</base-button></div>
-        </base-card>
-        <base-card >
-            <h1 >Frappe</h1>
-            <img src="../../public/image/caffe-mocha.webp">
-            
-            <div class="mount">
-            <h5>$15.00</h5>
-            <base-button>Add</base-button></div>
-        </base-card>
-        <base-card >
-            <h1 >Vanilla Far</h1>
-            <img src="../../public/image/VanillaFar.webp">
-            
-            <div class="mount">
-            <h5>$15.00</h5>
-            <base-button>Add</base-button></div>
-        </base-card>
-        <base-card >
-            <h1 >Chocolate Mocha</h1>
-            <img src="../../public/image/white-chocolate-mocha.webp">
-            
-            <div class="mount">
-            <h5>$15.00</h5>
-            <base-button>Add</base-button></div>
-        </base-card>
-        <base-card >
-            <h1 >Arabic Coffee</h1>
-            <img src="../../public/image/coffee-bg.png" class="arabic">
-            
-            <div class="mount">
-            <h5>$15.00</h5>
-            <base-button>Add</base-button></div>
-        </base-card>
+        <product-comp v-for="product in products" :key="product.id" :product="product" @add-to-cart="addToCart"></product-comp>
     </div>
+    <cart-comp :cart="cart" ></cart-comp>
+  
 </template>
 <script>
-import BaseCard from '../UI/BaseCard.vue';
-import BaseButton from '../UI/BaseButton.vue';
+import CartComp from '../components/CartComp.vue';
+import ProductComp from '../components/ProductComp.vue';
 export default {
     components:{
-        BaseCard,
-        BaseButton
+        CartComp,
+        ProductComp
+    },
+    data(){
+        return {
+            products: [
+        { id: 1, name: 'Iced Latte', price: 15, image: "../../public/image/iced-vanilla-latte.webp" },
+        { id: 2, name: 'Caffe Mocha', price: 15, image: "../../public/image/caffe-mocha.webp" },
+        { id: 3, name: 'Caramel Mac', price: 20, image: "../../public/image/iced-caramel-macchiato.webp" },
+        { id: 4, name: 'Chocolata far', price: 18, image: "../../public/image/mocha-blended-iced-img5.webp" },
+        { id: 5, name: 'Flat White', price: 17, image: "../../public/image/flat-white.png" },
+        { id: 6, name: 'Frappe', price: 15, image: "../../public/image/caffe-mocha.webp" },
+        { id: 7, name: 'Vanilla Far', price: 20, image: "../../public/image/VanillaFar.webp" },
+        { id: 8, name: 'Chocolate Mocha', price: 20, image: "../../public/image/white-chocolate-mocha.webp" },
+        { id: 9, name: 'Arabic Coffee', price: 10, image: "../../public/image/coffee-bg.png" },
+      ],
+      cart:[],
+        }
+    },
+    methods: {
+    addToCart(product) {
+      const cartItem = this.cart.find(item => item.id === product.id);
+      if (cartItem) {
+        cartItem.quantity++;
+      } else {
+        this.cart.push({ ...product, quantity: 1 });
+      }
     }
+    }
+ 
 }
 </script>
 <style scoped>
+
+
 .header{
     background-color: var(--text-color);
     color:var(--main-color);
